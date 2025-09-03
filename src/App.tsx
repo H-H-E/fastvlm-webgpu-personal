@@ -2,17 +2,17 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import LoadingScreen from "./components/LoadingScreen";
 import CaptioningView from "./components/CaptioningView";
 import WelcomeScreen from "./components/WelcomeScreen";
-import WebcamPermissionDialog from "./components/WebcamPermissionDialog";
+import ScreenSharePermissionDialog from "./components/ScreenSharePermissionDialog";
 import type { AppState } from "./types";
 
 export default function App() {
   const [appState, setAppState] = useState<AppState>("requesting-permission");
-  const [webcamStream, setWebcamStream] = useState<MediaStream | null>(null);
+  const [screenStream, setScreenStream] = useState<MediaStream | null>(null);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const handlePermissionGranted = useCallback((stream: MediaStream) => {
-    setWebcamStream(stream);
+    setScreenStream(stream);
     setAppState("welcome");
   }, []);
 
@@ -51,16 +51,16 @@ export default function App() {
   );
 
   useEffect(() => {
-    if (webcamStream && videoRef.current) {
+    if (screenStream && videoRef.current) {
       const video = videoRef.current;
 
       video.srcObject = null;
       video.load();
 
-      const cleanup = setupVideo(video, webcamStream);
+      const cleanup = setupVideo(video, screenStream);
       return cleanup;
     }
-  }, [webcamStream, setupVideo]);
+  }, [screenStream, setupVideo]);
 
   const videoBlurState = useMemo(() => {
     switch (appState) {
@@ -81,7 +81,7 @@ export default function App() {
     <div className="App relative h-screen overflow-hidden">
       <div className="absolute inset-0 bg-gray-900" />
 
-      {webcamStream && (
+      {screenStream && (
         <video
           ref={videoRef}
           autoPlay
@@ -97,7 +97,7 @@ export default function App() {
 
       {appState !== "captioning" && <div className="absolute inset-0 bg-gray-900/80 backdrop-blur-sm" />}
 
-      {appState === "requesting-permission" && <WebcamPermissionDialog onPermissionGranted={handlePermissionGranted} />}
+      {appState === "requesting-permission" && <ScreenSharePermissionDialog onPermissionGranted={handlePermissionGranted} />}
 
       {appState === "welcome" && <WelcomeScreen onStart={handleStart} />}
 

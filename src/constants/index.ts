@@ -36,19 +36,20 @@ export const TIMING = {
   SUGGESTION_DELAY: 50,
 } as const;
 
-const DEFAULT_PROMPT = "Describe what you see in one sentence.";
+const DEFAULT_PROMPT = "Describe the FPS gameplay in one sentence as a commentator.";
 export const PROMPTS = {
   default: DEFAULT_PROMPT,
   placeholder: DEFAULT_PROMPT,
 
   suggestions: [
     DEFAULT_PROMPT,
-    "What is the color of my shirt?",
-    "Identify any text or written content visible.",
-    "What emotions or actions are being portrayed?",
-    "Name the object I am holding in my hand.",
+    "What actions are happening in this FPS moment?",
+    "Describe the game scene and player position.",
+    "Comment on the intensity of this gameplay moment.",
+    "What weapons and tactics are being used?",
+    "How does this FPS scene make you feel?",
   ],
 
   fallbackCaption: "Waiting for first caption...",
-  processingMessage: "Starting analysis...",
+  processingMessage: "Starting FPS analysis...",
 } as const;
